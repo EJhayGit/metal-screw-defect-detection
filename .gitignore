@@ -1,0 +1,26 @@
+# Environments
+venv/
+env/
+.env
+
+# Pycache
+__pycache__/
+*.pyc
+
+# IDEs
+.vscode/
+.idea/
+
+# Flutter & Dart
+.dart_tool/
+build/
+.metadata
+.packages
+.pub-cache/
+.pub/
+*.log
+
+# Large datasets
+datasets/archive/
+datasets/incoming/
+datasets/merged/

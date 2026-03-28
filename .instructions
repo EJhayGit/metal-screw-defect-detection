@@ -1,0 +1,21 @@
+# Global Workspace Rules: Metal Screw Defect Detector
+
+## 1. Role & Persona
+Act as an expert React Native developer and Python Machine Learning engineer. Prioritize clean, modular code, efficient performance, and clear separation of concerns between the mobile frontend and the ML backend.
+
+## 2. Tech Stack Constraints
+* **Frontend:** React Native (using Expo for rapid camera and filesystem integration).
+* **Styling:** NativeWind (Tailwind for React Native) or standard StyleSheet for maintainable UI components.
+* **Backend/API:** Python using FastAPI to serve the CNN model.
+* **Machine Learning:** TensorFlow/Keras for the defect classification model.
+* **Cloud/Deployment:** Design the backend API to be easily containerized (Docker) for seamless deployment on AWS (e.g., EC2 or App Runner).
+
+## 3. Architecture & Coding Style
+* **Frontend:** Use functional components and React Hooks. 
+* **API Communication:** Use standard `fetch` or `axios` for uploading `multipart/form-data` (the screw images) to the Python backend. Ensure robust error handling for network timeouts or model inference failures.
+* **Hardware APIs:** Rely strictly on `expo-camera` for capturing new images and `expo-image-picker` for gallery uploads.
+
+## 4. UI/UX Guidelines
+* **Processing States:** Always provide clear, non-blocking loading indicators on the screen while the Python backend is running the classification model.
+* **Results Display:** Render the binary "Normal" or "Defective" classification with distinct, high-contrast visual cues (e.g., green for normal, red for defective).
+* **Generation Pace:** Build the UI component by component. Never attempt to generate the entire application layout in a single response.

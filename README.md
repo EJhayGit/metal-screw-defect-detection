@@ -1,35 +1,56 @@
-# metal-screw-defect-detection
-# Automated Defect Detection in Metal Screws Using Convolutional Neural Networks
+# Metal Screw Defect Detection
 
-## Overview
-This project focuses on the automated detection of defects in metal screws using Convolutional Neural Networks (CNNs). The goal is to improve industrial quality inspection by identifying defective screws from image data and classifying them as either **normal** or **defective**.
+An end-to-end AI application for inspecting metal screws and automating defect detection using Convolutional Neural Networks (CNNs). This system identifies whether a screw is **Normal** (functioning) or **Defective** (scratched, threaded, damaged) using computer vision.
 
-The study explores a computer vision pipeline using a CNN-based classifier or a lightweight segmentation model, with an additional anomaly detection baseline for comparison. The system is intended for research and experimental evaluation under controlled conditions.
+## System Architecture
 
-## Objectives
-- Develop a CNN-based model for detecting defects in metal screws
-- Classify screw images as **normal** or **defective**
-- Optionally localize defects using a lightweight segmentation model
-- Compare the CNN model against an anomaly detection baseline
-- Evaluate performance using standard computer vision metrics
+This project is separated into three core components:
 
-## Scope
-This project is limited to:
-- Image-based defect detection of **metal screws**
-- Binary classification: **normal** vs. **defective**
-- Optional defect localization using segmentation
-- Offline experimentation only
+### 1. Backend (`/backend`)
+A fast, lightweight REST API built with **FastAPI** to serve the trained machine learning model.
+- Receives anomaly images from the mobile app
+- Preprocesses images for inference using TensorFlow/Keras
+- Returns classification results (Normal/Defective) along with confidence scores
+- **Setup**: `pip install -r backend/requirements.txt`, run with `uvicorn main:app --host 0.0.0.0 --port 8000`
 
-This project does **not** include:
-- Real-time factory deployment
-- Mechanical strength testing
-- Detection of other fasteners or hardware components
-- Non-visual inspection methods
+### 2. Mobile App (`/mobile`)
+A **Flutter** cross-platform application that acts as the user interface for the system.
+- Allows users to capture or upload images of screws for inspection
+- Integrates seamlessly with the backend Fast API
+- Displays diagnostic results in real-time
+- **Setup**: Navigate to `/mobile`, install dependencies with `flutter pub get`, open emulator and run `flutter run`.
 
-## Dataset
-The project uses an openly available dataset containing images of metal screws with normal and defective samples.
+### 3. Machine Learning Pipeline (`/ml` & `/datasets`)
+Python scripts used to streamline model training and dataset preparation. 
+- Utilizes TensorFlow/Keras to build and train fine-tuned CNNs based on lightweight architectures like MobileNetV2
+- Automates data downloading and segregation for Kaggle datasets
+- Exports a trained `model.h5` model to be directly deployed into the backend server
 
-Possible sources include:
-- MVTec AD dataset
-- Kaggle screw defect datasets
-- Other open academic or research datasets with proper licensing
+## Getting Started
+
+**Requirements**:
+- Python 3.9+
+- Flutter SDK
+- TensorFlow
+
+**1. Start the API Server**:
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+**2. Launch the Mobile App**:
+```bash
+cd mobile
+flutter pub get
+flutter run
+```
+
+*Note: If running on a physical mobile device, ensure it is connected to the same network as the backend server, and update the API base URL in the Flutter application to point to your machine's local IP address instead of `127.0.0.1`.*
+
+## Scope and Limitations
+- **Binary Classification**: Designed exclusively for binary defect detection of a specific set of metal screws.
+- **Research Only**: This system acts as a proof of concept and is not designed for real-time edge deployment within factory hardware without edge optimizations (e.g., TFLite, TensorRT conversion).
